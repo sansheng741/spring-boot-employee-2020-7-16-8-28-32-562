@@ -31,10 +31,18 @@ public class CompanyServiceImpl implements CompanyService {
         this.employeeRepository = employeeRepository;
     }
 
+//    @Override
+//    public List<Company> getAllCompanies() {
+//        return companyRepository.findAll();
+//    }
+
     @Override
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
+    public List<CompanyResponse> getAllCompanies() {
+        List<Company> companyList = companyRepository.findAll();
+        return Converter.getCompanyResponses(companyList);
     }
+
+
 
     @Override
     public Company getCompany(int id) {
@@ -62,9 +70,15 @@ public class CompanyServiceImpl implements CompanyService {
         return Converter.getEmployeeResponses(employeeList);
     }
 
+//    @Override
+//    public List<Company> pagingQueryCompanies(Pageable pageable) {
+//        return companyRepository.findAll(pageable).getContent();
+//    }
+
     @Override
-    public List<Company> pagingQueryCompanies(Pageable pageable) {
-        return companyRepository.findAll(pageable).getContent();
+    public List<CompanyResponse> pagingQueryCompanies(Pageable pageable) {
+        List<Company> companyList = companyRepository.findAll(pageable).getContent();
+        return Converter.getCompanyResponses(companyList);
     }
 
     @Override

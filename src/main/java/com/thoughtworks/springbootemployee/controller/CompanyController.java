@@ -39,8 +39,16 @@ public class CompanyController {
         return companyService.getAllEmployeesOfCompany(id);
     }
 
+//    @GetMapping(value = "/companies")
+//    private List<Company> queryCompanies(@PageableDefault(size = 2) Pageable pageable,@RequestParam(defaultValue = "false",required = false) boolean unpaged) {
+//        if(unpaged){
+//            return companyService.getAllCompanies();
+//        }
+//        return companyService.pagingQueryCompanies(pageable);
+//    }
+
     @GetMapping(value = "/companies")
-    private List<Company> queryCompanies(@PageableDefault(size = 2) Pageable pageable,@RequestParam(defaultValue = "false",required = false) boolean unpaged) {
+    private List<CompanyResponse> queryCompanies(@PageableDefault(size = 2) Pageable pageable,@RequestParam(defaultValue = "false",required = false) boolean unpaged) {
         if(unpaged){
             return companyService.getAllCompanies();
         }

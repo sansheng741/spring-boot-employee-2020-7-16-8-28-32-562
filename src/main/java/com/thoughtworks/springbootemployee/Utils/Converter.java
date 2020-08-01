@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.Utils;
 
+import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
+import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import org.springframework.beans.BeanUtils;
 
@@ -30,4 +32,16 @@ public class Converter {
         }
         return employeeResponseList;
     }
+
+    public static List<CompanyResponse> getCompanyResponses(List<Company> companyList) {
+        List<CompanyResponse> companyResponseList = new ArrayList<>();
+        for (Company company : companyList) {
+            CompanyResponse companyResponse = new CompanyResponse();
+            BeanUtils.copyProperties(company,companyResponse);
+
+            companyResponseList.add(companyResponse);
+        }
+        return companyResponseList;
+    }
+
 }
