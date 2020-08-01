@@ -78,53 +78,8 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void should_return_company_when_getCompany_given_company_id() throws Exception {
-        Company company = new Company("oocl");
-        Company savedCompany = companyRepository.save(company);
-        Employee savedEmployee = employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/employees/" + savedEmployee.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("colin"));
-    }
 
 
-    @Test
-    void should_return_all_employee_when_getAllEmployeesOfCompany_given_company_id() throws Exception {
-        Company company = new Company("oocl");
-        Company savedCompany = companyRepository.save(company);
-
-       employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"+company.getCompanyID()+"/employees"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("length()").value(1));
-    }
-
-
-    @Test
-    void should_zero_company_when_deleteTheCompanyAllInfo_given_company_id() throws Exception {
-        Company company = new Company("oocl");
-        Company savedCompany = companyRepository.save(company);
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/"+company.getCompanyID()))
-                .andExpect(status().isOk());
-        assertEquals(0, companyRepository.findAll().size());
-    }
-
-    @Test
-    void should_return_Modified_company_when_updateCompany_given_company() throws Exception {
-        Company company = new Company("oocl");
-        Company savedCompany = companyRepository.save(company);
-
-        String companyInfo = "{\"companyID\":1,\"name\":\"tw\"}";
-
-
-        mockMvc.perform(MockMvcRequestBuilders.put("/companies/")
-        .contentType(MediaType.APPLICATION_JSON).content(companyInfo))
-                .andExpect(status().isOk());
-        assertEquals("tw",companyRepository.findById(1).get().getName());
-    }
 }
