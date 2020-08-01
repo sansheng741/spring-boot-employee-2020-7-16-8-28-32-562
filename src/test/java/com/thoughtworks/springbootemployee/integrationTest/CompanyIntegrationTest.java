@@ -44,11 +44,10 @@ public class CompanyIntegrationTest {
     void should_return_company_when_getCompany_given_company_id() throws Exception {
         Company company = new Company("oocl");
         Company savedCompany = companyRepository.save(company);
-        Employee savedEmployee = employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/employees/" + savedEmployee.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"+savedCompany.getCompanyID()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("colin"));
+                .andExpect(jsonPath("name").value("oocl"));
     }
 
     @Test
