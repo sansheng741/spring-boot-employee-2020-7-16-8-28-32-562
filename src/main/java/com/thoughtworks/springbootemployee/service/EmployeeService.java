@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface EmployeeService {
-    List<Employee> getEmployees();
+    List<EmployeeResponse> getEmployees();
 
     EmployeeResponse getSpecificEmployee(int id);
 
@@ -17,9 +17,9 @@ public interface EmployeeService {
 
     void deleteEmployees(int id);
 
-    List<Employee> getMaleEmployees(String gender);
+    List<EmployeeResponse> getMaleEmployees(String gender);
 
     void updateEmployees(Employee employee);
 
-    Page<Employee> pagingQueryEmployees(Pageable pageable);
+    List<EmployeeResponse> pagingQueryEmployees(Pageable pageable);
 }

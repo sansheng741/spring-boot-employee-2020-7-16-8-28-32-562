@@ -42,16 +42,29 @@ public class EmployeeController {
         employeeServiceImpl.updateEmployees(employee);
     }
 
+//    @GetMapping("/employees")
+//    public List<Employee> pagingQueryEmployees(@PageableDefault(size = 2) Pageable pageable, @RequestParam(defaultValue = "false", required = false) boolean unpaged) {
+//        if (unpaged) {
+//            return employeeServiceImpl.getEmployees();
+//        }
+//        return employeeServiceImpl.pagingQueryEmployees(pageable).getContent();
+//    }
+
     @GetMapping("/employees")
-    public List<Employee> pagingQueryEmployees(@PageableDefault(size = 2) Pageable pageable, @RequestParam(defaultValue = "false", required = false) boolean unpaged) {
+    public List<EmployeeResponse> pagingQueryEmployees(@PageableDefault(size = 2) Pageable pageable, @RequestParam(defaultValue = "false", required = false) boolean unpaged) {
         if (unpaged) {
             return employeeServiceImpl.getEmployees();
         }
-        return employeeServiceImpl.pagingQueryEmployees(pageable).getContent();
+        return employeeServiceImpl.pagingQueryEmployees(pageable);
     }
 
+//    @GetMapping(value = "/employees", params = "gender")
+//    public List<Employee> getMaleEmployees(@RequestParam("gender") String gender) {
+//        return employeeServiceImpl.getMaleEmployees(gender);
+//    }
+
     @GetMapping(value = "/employees", params = "gender")
-    public List<Employee> getMaleEmployees(@RequestParam("gender") String gender) {
+    public List<EmployeeResponse> getMaleEmployees(@RequestParam("gender") String gender) {
         return employeeServiceImpl.getMaleEmployees(gender);
     }
 }

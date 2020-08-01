@@ -30,9 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private List<Employee> employees = new ArrayList<>();
 
+//    @Override
+//    public List<Employee> getEmployees() {
+//        return employeeRepository.findAll();
+//    }
+
     @Override
-    public List<Employee> getEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeResponse> getEmployees() {
+        List<Employee> employeeList = employeeRepository.findAll();
+
+        List<EmployeeResponse> employeeResponseList = getEmployeeResponses(employeeList);
+        return employeeResponseList;
     }
 
 //    public Employee getSpecificEmployee(int id) {
@@ -75,8 +83,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getMaleEmployees(String gender) {
-        return employeeRepository.findByGender(gender);
+    public List<EmployeeResponse> getMaleEmployees(String gender) {
+        List<Employee> employeeList = employeeRepository.findByGender(gender);
+        List<EmployeeResponse> employeeResponses = getEmployeeResponses(employeeList);
+        return employeeResponses;
     }
 
     @Override
@@ -86,7 +96,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public Page<Employee> pagingQueryEmployees(Pageable pageable) {
-        return employeeRepository.findAll(pageable);
+    public List<EmployeeResponse> pagingQueryEmployees(Pageable pageable) {
+        List<Employee> employeeList = employeeRepository.findAll(pageable).getContent();
+        List<EmployeeResponse> employeeResponseList = getEmployeeResponses(employeeList);
+        return employeeResponseList;
+    }
+
+    private List<EmployeeResponse> getEmployeeResponses(List<Employee> employeeList) {
+        List<EmployeeResponse> employeeResponseList = new ArrayList<>();
+
+        for (Employee employee : employeeList) {
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+
+            BeanUtils.copyProperties(employee, employeeResponse);
+            employeeResponse.setCompanyName(employee.getCompany().getName());
+
+            employeeResponseList.add(employeeResponse);
+        }
+        return employeeResponseList;
     }
 }
