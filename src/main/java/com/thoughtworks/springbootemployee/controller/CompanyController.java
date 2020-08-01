@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.service.impl.CompanyServiceImpl;
@@ -17,9 +18,14 @@ public class CompanyController {
     @Autowired
     private CompanyServiceImpl companyService;
 
+//    @GetMapping("/companies/{id}")
+//    private Company getCompany(@PathVariable("id") int id) {
+//        return companyService.getCompany(id);
+//    }
+
     @GetMapping("/companies/{id}")
-    private Company getCompany(@PathVariable("id") int id) {
-        return companyService.getCompany(id);
+    private CompanyResponse getCompany(@PathVariable("id") int id) {
+        return companyService.getCompany2(id);
     }
 
     @GetMapping("/companies/{id}/employees")

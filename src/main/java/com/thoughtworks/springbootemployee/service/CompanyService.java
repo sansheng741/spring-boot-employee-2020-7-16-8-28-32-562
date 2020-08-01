@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ public interface CompanyService {
     List<Company> getAllCompanies();
 
     Company getCompany(int id);
+    CompanyResponse getCompany2(int id);
 
     List<Employee> getAllEmployeesOfCompany(int id);
 
