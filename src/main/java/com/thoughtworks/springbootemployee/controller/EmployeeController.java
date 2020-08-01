@@ -17,8 +17,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeServiceImpl employeeServiceImpl;
 
+//    @GetMapping("/employees/{id}")
+//    public Employee getSpecificEmployee(@PathVariable("id") int id) {
+//        return employeeServiceImpl.getSpecificEmployee(id);
+//    }
+
     @GetMapping("/employees/{id}")
-    public Employee getSpecificEmployee(@PathVariable("id") int id) {
+    public EmployeeResponse getSpecificEmployee(@PathVariable("id") int id) {
         return employeeServiceImpl.getSpecificEmployee(id);
     }
 

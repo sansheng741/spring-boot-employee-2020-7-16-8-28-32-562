@@ -1,0 +1,1 @@
+insert into employee(name,age,gender,company_id) values('colin',22,'male',1)

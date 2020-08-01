@@ -1,0 +1,1 @@
+insert into company(name) values('oocl')
