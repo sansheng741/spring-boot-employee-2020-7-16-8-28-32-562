@@ -34,7 +34,7 @@ public class EmployeeIntegrationTest {
     MockMvc mockMvc;
 
     @AfterEach
-    void teardown(){
+    void teardown() {
         employeeRepository.deleteAll();
         companyRepository.deleteAll();
     }
@@ -49,10 +49,10 @@ public class EmployeeIntegrationTest {
     void should_return_employee_when_getSpecificEmployee_given_employee_id() throws Exception {
         Company company = new Company("oocl");
         companyRepository.save(company);
-        Employee employee = new Employee("colin","male",11,company);
+        Employee employee = new Employee("colin", "male", 11, company);
         employeeRepository.save(employee);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/employees/"+employee.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/" + employee.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("colin"));
     }
@@ -73,7 +73,7 @@ public class EmployeeIntegrationTest {
                 .content(body))
                 .andExpect(status().isOk());
         List<Employee> employees = employeeRepository.findAll();
-        assertEquals(1,employees.size());
+        assertEquals(1, employees.size());
     }
 
     @Test
@@ -95,14 +95,14 @@ public class EmployeeIntegrationTest {
     void should_return_zero_employee_when_deleteEmployees_given_employee_id() throws Exception {
         Company company = new Company("oocl");
         companyRepository.save(company);
-        Employee employee = new Employee("colin","male",11,company);
+        Employee employee = new Employee("colin", "male", 11, company);
         employeeRepository.save(employee);
 
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/"+employee.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/" + employee.getId()))
                 .andExpect(status().isOk());
 
-        assertEquals(0,employeeRepository.findAll().size());
+        assertEquals(0, employeeRepository.findAll().size());
     }
 
 
@@ -110,7 +110,7 @@ public class EmployeeIntegrationTest {
     void should_return_Modified_employee_when_updateEmployees_given_employee() throws Exception {
         Company company = new Company("oocl");
         companyRepository.save(company);
-        Employee employee = new Employee("colin","male",11,company);
+        Employee employee = new Employee("colin", "male", 11, company);
         employeeRepository.save(employee);
 
         String body = " {\n" +
@@ -127,12 +127,24 @@ public class EmployeeIntegrationTest {
                 .content(body))
                 .andExpect(status().isOk());
 
-        assertEquals(22,employeeRepository.findById(1).get().getAge());
+        assertEquals(22, employeeRepository.findById(1).get().getAge());
 
     }
 
+    @Test
+    void should_return_1_when_query_by_gender_given_2_employee() throws Exception {
+        Company company = new Company("oocl");
+        companyRepository.save(company);
+        Employee employee = new Employee("colin", "male", 11, company);
+        employeeRepository.save(employee);
+        Employee employee1 = new Employee("cc", "female", 22, company);
+        employeeRepository.save(employee1);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees")
+                .param("gender","male"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1));
 
 
-
-
+    }
 }
