@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service.impl;
 
+import com.thoughtworks.springbootemployee.Utils.Converter;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeesRequest;
 import com.thoughtworks.springbootemployee.entity.Company;
@@ -31,9 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeResponse> getEmployees() {
         List<Employee> employeeList = employeeRepository.findAll();
-
-        List<EmployeeResponse> employeeResponseList = getEmployeeResponses(employeeList);
-        return employeeResponseList;
+        return Converter.getEmployeeResponses(employeeList);
     }
 
 
@@ -75,8 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeResponse> getMaleEmployees(String gender) {
         List<Employee> employeeList = employeeRepository.findByGender(gender);
-        List<EmployeeResponse> employeeResponses = getEmployeeResponses(employeeList);
-        return employeeResponses;
+        return Converter.getEmployeeResponses(employeeList);
     }
 
     @Override
@@ -88,21 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeResponse> pagingQueryEmployees(Pageable pageable) {
         List<Employee> employeeList = employeeRepository.findAll(pageable).getContent();
-        List<EmployeeResponse> employeeResponseList = getEmployeeResponses(employeeList);
-        return employeeResponseList;
+        return Converter.getEmployeeResponses(employeeList);
     }
 
-    private List<EmployeeResponse> getEmployeeResponses(List<Employee> employeeList) {
-        List<EmployeeResponse> employeeResponseList = new ArrayList<>();
 
-        for (Employee employee : employeeList) {
-            EmployeeResponse employeeResponse = new EmployeeResponse();
-
-            BeanUtils.copyProperties(employee, employeeResponse);
-            employeeResponse.setCompanyName(employee.getCompany().getName());
-
-            employeeResponseList.add(employeeResponse);
-        }
-        return employeeResponseList;
-    }
 }

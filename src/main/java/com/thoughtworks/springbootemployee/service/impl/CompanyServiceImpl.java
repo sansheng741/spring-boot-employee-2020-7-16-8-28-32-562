@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.service.impl;
 
+import com.thoughtworks.springbootemployee.Utils.Converter;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
+import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
 import com.thoughtworks.springbootemployee.entity.Employee;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,10 +49,17 @@ public class CompanyServiceImpl implements CompanyService {
         return companyResponse;
     }
 
+//    @Override
+//    public List<Employee> getAllEmployeesOfCompany(int id) {
+//        Company company = getCompany(id);
+//        return company.getEmployeeList();
+//    }
+
     @Override
-    public List<Employee> getAllEmployeesOfCompany(int id) {
-        Company company = getCompany(id);
-        return company.getEmployeeList();
+    public List<EmployeeResponse> getAllEmployeesOfCompany(int id) {
+        Company company = companyRepository.findById(id).orElseThrow(CompanyNotFoundException::new);
+        List<Employee> employeeList = company.getEmployeeList();
+        return Converter.getEmployeeResponses(employeeList);
     }
 
     @Override
