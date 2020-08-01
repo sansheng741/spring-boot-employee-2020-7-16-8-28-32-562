@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
@@ -55,8 +56,13 @@ public class CompanyController {
         return companyService.pagingQueryCompanies(pageable);
     }
 
+//    @PostMapping("/companies")
+//    private void addCompany(@RequestBody() Company company) {
+//        companyService.addCompany(company);
+//    }
+
     @PostMapping("/companies")
-    private void addCompany(@RequestBody() Company company) {
+    private void addCompany(@RequestBody CompanyRequest company) {
         companyService.addCompany(company);
     }
 

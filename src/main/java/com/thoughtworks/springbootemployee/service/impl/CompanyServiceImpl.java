@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service.impl;
 
 import com.thoughtworks.springbootemployee.Utils.Converter;
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.entity.Company;
@@ -81,8 +82,15 @@ public class CompanyServiceImpl implements CompanyService {
         return Converter.getCompanyResponses(companyList);
     }
 
+//    @Override
+//    public boolean addCompany(Company company) {
+//        companyRepository.save(company);
+//        return true;
+//    }
+
     @Override
-    public boolean addCompany(Company company) {
+    public boolean addCompany(CompanyRequest companyRequest) {
+        Company company = new Company(companyRequest.getName());
         companyRepository.save(company);
         return true;
     }
