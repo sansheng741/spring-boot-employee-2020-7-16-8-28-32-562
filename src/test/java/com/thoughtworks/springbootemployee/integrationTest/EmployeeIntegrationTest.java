@@ -91,6 +91,20 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void should_return_zero_employee_when_deleteEmployees_given_employee_id() throws Exception {
+        Company company = new Company("oocl");
+        companyRepository.save(company);
+        Employee employee = new Employee("colin","male",11,company);
+        employeeRepository.save(employee);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/"+employee.getId()))
+                .andExpect(status().isOk());
+
+        assertEquals(0,employeeRepository.findAll().size());
+    }
+
 
 
 
