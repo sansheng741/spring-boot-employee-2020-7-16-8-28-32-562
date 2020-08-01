@@ -114,5 +114,17 @@ public class EmployeeIntegrationTest {
         assertEquals(0, companyRepository.findAll().size());
     }
 
+    @Test
+    void should_return_Modified_company_when_updateCompany_given_company() throws Exception {
+        Company company = new Company("oocl");
+        Company savedCompany = companyRepository.save(company);
 
+        String companyInfo = "{\"companyID\":1,\"name\":\"tw\"}";
+
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/companies/")
+        .contentType(MediaType.APPLICATION_JSON).content(companyInfo))
+                .andExpect(status().isOk());
+        assertEquals("tw",companyRepository.findById(1).get().getName());
+    }
 }
