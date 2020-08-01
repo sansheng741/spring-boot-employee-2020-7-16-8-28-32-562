@@ -33,11 +33,10 @@ public class CompanyIntegrationTest {
     MockMvc mockMvc;
 
     @AfterEach
-    void teardown(){
+    void teardown() {
         employeeRepository.deleteAll();
         companyRepository.deleteAll();
     }
-
 
 
     @Test
@@ -45,7 +44,7 @@ public class CompanyIntegrationTest {
         Company company = new Company("oocl");
         Company savedCompany = companyRepository.save(company);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"+savedCompany.getCompanyID()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/" + savedCompany.getCompanyID()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("oocl"));
     }
@@ -55,12 +54,25 @@ public class CompanyIntegrationTest {
         Company company = new Company("oocl");
         Company savedCompany = companyRepository.save(company);
 
-       employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
+        employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"+company.getCompanyID()+"/employees"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/" + company.getCompanyID() + "/employees"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("length()").value(1));
+    }
+
+    @Test
+    void should_return_all_company_when_queryCompanies() throws Exception {
+        Company company1 = new Company("oocl");
+        companyRepository.save(company1);
+        Company company2 = new Company("tw");
+        companyRepository.save(company2);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(2));
+
     }
 
 
@@ -69,7 +81,7 @@ public class CompanyIntegrationTest {
         Company company = new Company("oocl");
         Company savedCompany = companyRepository.save(company);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/"+company.getCompanyID()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/" + company.getCompanyID()))
                 .andExpect(status().isOk());
         assertEquals(0, companyRepository.findAll().size());
     }
@@ -83,8 +95,8 @@ public class CompanyIntegrationTest {
 
 
         mockMvc.perform(MockMvcRequestBuilders.put("/companies/")
-        .contentType(MediaType.APPLICATION_JSON).content(companyInfo))
+                .contentType(MediaType.APPLICATION_JSON).content(companyInfo))
                 .andExpect(status().isOk());
-        assertEquals("tw",companyRepository.findById(1).get().getName());
+        assertEquals("tw", companyRepository.findById(1).get().getName());
     }
 }
