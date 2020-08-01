@@ -103,4 +103,16 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("length()").value(1));
     }
 
+
+    @Test
+    void should_zero_company_when_deleteTheCompanyAllInfo_given_company_id() throws Exception {
+        Company company = new Company("oocl");
+        Company savedCompany = companyRepository.save(company);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/companies/"+company.getCompanyID()))
+                .andExpect(status().isOk());
+        assertEquals(0, companyRepository.findAll().size());
+    }
+
+
 }
