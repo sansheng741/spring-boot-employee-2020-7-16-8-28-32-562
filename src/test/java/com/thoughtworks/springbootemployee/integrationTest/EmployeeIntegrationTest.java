@@ -88,4 +88,19 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("colin"));
     }
+
+
+    @Test
+    void should_return_all_employee_when_getAllEmployeesOfCompany_given_company_id() throws Exception {
+        Company company = new Company("oocl");
+        Company savedCompany = companyRepository.save(company);
+
+       employeeRepository.save(new Employee("colin", "male", 22, savedCompany));
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/"+company.getCompanyID()+"/employees"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(1));
+    }
+
 }
