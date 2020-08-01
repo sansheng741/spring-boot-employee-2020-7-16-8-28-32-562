@@ -75,6 +75,17 @@ public class CompanyIntegrationTest {
 
     }
 
+    @Test
+    void should_return_1_company_when_addCompany_given_company() throws Exception {
+
+        String company = "{\"companyID\":1,\"name\":\"oocl\"}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/companies/")
+                .contentType(MediaType.APPLICATION_JSON).content(company))
+                .andExpect(status().isOk());
+        assertEquals(1, companyRepository.findAll().size());
+    }
+
 
     @Test
     void should_zero_company_when_deleteTheCompanyAllInfo_given_company_id() throws Exception {
