@@ -106,6 +106,32 @@ public class EmployeeIntegrationTest {
     }
 
 
+    @Test
+    void should_return_Modified_employee_when_updateEmployees_given_employee() throws Exception {
+        Company company = new Company("oocl");
+        companyRepository.save(company);
+        Employee employee = new Employee("colin","male",11,company);
+        employeeRepository.save(employee);
+
+        String body = " {\n" +
+                "                \"id\": 1,\n" +
+                "                \"name\": \"colin\",\n" +
+                "                \"gender\": \"male\",\n" +
+                "                \"age\": 22,\n" +
+                "                \"companyId\":1\n" +
+                "            }";
+
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/employees/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().isOk());
+
+        assertEquals(22,employeeRepository.findById(1).get().getAge());
+
+    }
+
+
 
 
 
