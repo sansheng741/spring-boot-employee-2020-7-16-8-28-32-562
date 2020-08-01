@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
@@ -42,6 +43,18 @@ public class EmployeeIntegrationTest {
     void should_return_all_employees_when_get_all_employees() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("unpaged", "true"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void should_return_employee_when_getSpecificEmployee_given_employee_id() throws Exception {
+        Company company = new Company("oocl");
+        companyRepository.save(company);
+        Employee employee = new Employee("colin","male",11,company);
+        employeeRepository.save(employee);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/"+employee.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("colin"));
     }
 
     @Test
